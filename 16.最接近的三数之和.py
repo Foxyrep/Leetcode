@@ -38,6 +38,7 @@ class Solution:
                 
                 if second == third:
                     break
+                # 同步于mac
         return ans
 
 
