@@ -14,8 +14,7 @@ class Solution:
 
         n = len(nums)
         nums.sort()
-        ans = 0
-        record = 999999999
+        ans = 999999999
 
         # 第一重循环
         for first in range(n):
@@ -23,25 +22,35 @@ class Solution:
             if first>0 and nums[first] == nums[first-1]:
                 continue
 
-            
+            second = first+1
             third = n-1
             # 第二重循环里两个指针逼近
-            for second in range(first+1, n):
-                # 同样的，不能和之前的相等
-                if second>first+1 and nums[second] == nums[second-1]:
-                    continue
+            while second < third:
+                sum = nums[first]+nums[second]+nums[third]
+                # 如果直接相等，可以直接返回：
+                if sum == target:
+                    return sum
+
+                if abs(sum-target) < abs(ans-target):
+                    ans = sum
                 
-                while second < third:
-                    if abs(target-(nums[first]+nums[second]+nums[third])) < record:
-                        ans = nums[first]+nums[second]+nums[third]
-                    else: third -= 1
-                
-                if second == third:
-                    break
+                if sum > target:
+                    third_ = third - 1  # 这里得暂存一下，然后比较一下，得找到下一个不相等的才能赋值
+                    while third_ > second and nums[third_] == nums[third]:
+                        third_ -= 1
+                    third = third_
+                elif sum < target:
+                    second_ = second + 1
+                    while second_ < third and nums[second_] == nums[second]:
+                        second_ += 1 
+                    second = second_
+
                 # 同步于mac
         return ans
 
-
+# s = Solution()
+# ans = s.threeSumClosest([0,0,0,3,2,1],7)
+# print(ans)
             
 # @lc code=end
 
